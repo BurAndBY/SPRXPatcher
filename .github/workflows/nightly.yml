@@ -1,4 +1,9 @@
-on: [ push, pull_request ]
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs at midnight UTC every day
+  push:
+    branches:
+      - main  # or your main branch name
 
 name: Nightly builds
 
@@ -18,7 +23,7 @@ jobs:
             - name: Publish
               run: dotnet publish SPRXPatcher/SPRXPatcher.csproj --self-contained false --output ./artifacts
             - name: Upload artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: windows-nightly
                   path: ./artifacts
